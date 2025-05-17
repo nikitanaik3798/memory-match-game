@@ -1,38 +1,336 @@
-.App {
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Poppins:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bowlby+One&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #fff8e6;
+}
+
+.game-container {
+  font-family: "Arial", sans-serif;
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  padding: 20px;
   min-height: 100vh;
+}
+
+.game-wrapper {
+  background-color: #FFFEED;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.game-header {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  background-color: #fceab8;
+  padding: 10px 20px;
+  border-radius: 8px;
+  max-width: 100%;
+  width: 100%;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.game-title {
+  font-family: "Bungee Inline", cursive;
+  font-size: 2rem;
+  color: #5a4b41;
+  margin: 0 15px;
+}
+
+.side-decoration {
+  font-size: 2rem;
+}
+
+h2 {
+  color: #5a4b41;
+  font-family: "Bowlby One", cursive;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+h3 {
+  font-family: "Poppins", sans-serif;
+  color: #5a4b41;
+  margin: 10px 0;
+}
+
+/* Top bar layout */
+.top-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 500px;
+  margin: 0 auto 10px;
+  padding: 0 10px;
+}
+
+.timer {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  color: #5a4b41;
+  background-color: #fff0c8;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 500;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.restart-button {
+  padding: 6px 16px;
+  font-size: 0.9rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  border: none;
+  border-radius: 20px;
+  background-color: #ffb84d;
+  color: #3d2f1e;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+
+.restart-button:hover {
+  background-color: #f4a628;
+}
+
+.progress-bar {
+  width: 100%;
+  max-width: 400px;
+  margin: 10px auto;
+  background-color: #e0e0e0;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #5a4b41;
+  transition: width 0.3s;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: 10px;
+  justify-content: center;
+  max-width: 280px;
+  margin: 20px auto 0;
+}
+
+.card {
+  width: 60px;
+  height: 60px;
+  background-color: #fceab8;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  perspective: 1000px;
+  transition: transform 0.6s;
+}
+
+.card span {
+  position: absolute;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  backface-visibility: hidden;
+  font-size: 2rem;
 }
 
-.App-link {
-  color: #61dafb;
+.card-front {
+  transform: rotateY(180deg);
 }
 
-@keyframes App-logo-spin {
+.card-back {
+  background-color: #f6d18a;
+}
+
+.card.flipped .card-front {
+  transform: rotateY(0deg);
+}
+
+.card.flipped .card-back {
+  transform: rotateY(-180deg);
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.5s;
+  z-index: 100;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  font-family: "Bungee Inline", cursive;
+  color: #5a4b41;
+}
+
+.modal-content button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  background-color: #ffb84d;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.modal-content button:hover {
+  background-color: #f4a628;
+}
+
+/* Intro modal */
+.intro-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.intro-content {
+  background: #fffdf0;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  font-family: "Bungee Inline", cursive;
+  max-width: 500px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  animation: popIn 0.6s ease;
+}
+
+.intro-content p {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 20px;
+  line-height: 1.7;
+}
+
+.intro-content button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #f6d18a;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.intro-content button:hover {
+  background-color: #f4bd53;
+}
+
+/* Animations */
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .game-wrapper {
+    padding: 20px;
+    margin: 10px;
+    width: 95%;
+    box-sizing: border-box;
+  }
+
+  .game-header {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .top-controls {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .progress-bar {
+    max-width: 90%;
+  }
+
+  .board {
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    max-width: 100%;
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .card {
+    width: 50px;
+    height: 50px;
+  }
+
+  .card span {
+    font-size: 1.5rem;
+  }
+
+  .game-title {
+    font-size: 1.5rem;
+  }
+
+  .restart-button,
+  .timer {
+    width: 100%;
+    text-align: center;
+  }
+
+  .modal-content {
+    width: 90%;
   }
 }
